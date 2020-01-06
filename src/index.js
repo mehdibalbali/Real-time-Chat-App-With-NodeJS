@@ -2,7 +2,7 @@ const express = require('express')
 const path = require('path')
 const http = require('http')
 const socketio = require('socket.io')
-
+const {generateMessage,generateLocationMessage} = require('./utils/messages')
 const app = express()
 const server = http.createServer(app)
 const io = socketio(server)
@@ -15,19 +15,19 @@ app.use(express.static(publicDirectoryPath))
 io.on('connection', (socket) =>{
     console.log('New web soket')
     
-    socket.emit('message', 'welcome')
-    socket.broadcast.emit('message','A new user hase join the chat room')
+    socket.emit('message', generateMessage('Welcome! '))
+    socket.broadcast.emit('message',generateMessage('A new user hase join the chat room'))
     socket.on('send',(message, callback) =>{
-        io.emit('message', message)
+        io.emit('message', generateMessage(message))
         callback()
     })
 
     socket.on('sendLocation', (location, callback) => {
-        io.emit('locationMessage',location)
+        io.emit('locationMessage',generateLocationMessage(location))
         callback()
     })
     socket.on('disconnect', () => {
-        io.emit('message', 'A user has disconnected')
+        io.emit('message', generateMessage('A user has disconnected'))
     })
 })
 server.listen(port, () =>{
