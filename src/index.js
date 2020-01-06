@@ -16,12 +16,19 @@ io.on('connection', (socket) =>{
     console.log('New web soket')
     
     socket.emit('message', 'welcome')
-   
-    socket.on('send',(message) =>{
+    socket.broadcast.emit('message','A new user hase join the chat room')
+    socket.on('send',(message, callback) =>{
         io.emit('message', message)
+        callback()
     })
 
-    
+    socket.on('sendLocation', (location, callback) => {
+        io.emit('locationMessage',location)
+        callback()
+    })
+    socket.on('disconnect', () => {
+        io.emit('message', 'A user has disconnected')
+    })
 })
 server.listen(port, () =>{
     console.log(`Server is running on port ${port} !`)
