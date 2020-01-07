@@ -26,25 +26,36 @@ io.on('connection', (socket) =>{
 
         socket.join(user.room)
        
-        socket.emit('message', generateMessage('Welcome! '))
-        socket.broadcast.to(user.room).emit('message',generateMessage(`${user.username} has join the chat room`))
-        
+        socket.emit('message', generateMessage('admin','Welcome to the node.JS chat App! '))
+        socket.broadcast.to(user.room).emit('message',generateMessage('admin',`${user.username} has join the chat room`))
+        io.to(user.room).emit('roomData', {
+            room: user.room,
+            users: getUsersInRoom(user.room)
+        })
         callback()
    })
     socket.on('send',(message, callback) =>{
-        io.to('hhh').emit('message', generateMessage(message))
+        const user = getUser(socket.id)
+
+
+        io.to(user.room).emit('message', generateMessage(user.username,message))
         callback()
     })
 
     socket.on('sendLocation', (location, callback) => {
-        io.emit('locationMessage',generateLocationMessage(location))
+        const user = getUser(socket.id)
+        io.to(user.room).emit('locationMessage',generateLocationMessage(user.username,location))
         callback()
     })
     socket.on('disconnect', () => {
         const user = removeUser(socket.id)
 
         if (user){
-            io.to(user.room).emit('message', generateMessage(`${user.username} has left!`))
+            io.to(user.room).emit('message', generateMessage('Admin',`${user.username} has left!`))
+            io.to(user.room).emit('roomData', {
+                room: user.room,
+                users: getUsersInRoom(user,user.room)
+            })
         }
     })
 })

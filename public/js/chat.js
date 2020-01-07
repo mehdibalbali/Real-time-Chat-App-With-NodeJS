@@ -10,12 +10,13 @@ const messages = document.querySelector('#messages')
 // Templates
 const messageTemplate = document.querySelector('#message-template').innerHTML
 const locationMessageTemplate = document.querySelector('#location-template').innerHTML
-
+const sidebarTemplate = document.querySelector('#sidebar-template').innerHTML
 // options
 const {username, room} = Qs.parse(location.search,{ignoreQueryPrefix: true})
 
 socket.on('message', (message) => {
     const html = Mustache.render(messageTemplate, {
+        username: message.username,
         message: message.text,
         createdAt: moment(message.createdAt).format('h:mm a')
     })
@@ -25,15 +26,24 @@ socket.on('message', (message) => {
 socket.on('locationMessage', (message) => {
     console.log(message)
     const html = Mustache.render(locationMessageTemplate, {
+        username: message.username,
         url: message.url,
         createdAt: moment(message.createdAt).format('h:mm a')
     })
     messages.insertAdjacentHTML('beforeend',html)
 })
+
+socket.on('roomData', ({room, users}) => {
+    const html = Mustache.render(sidebarTemplate, {
+        room,
+        users
+    })
+    document.querySelector('#sidebar').innerHTML = html
+})
+
 messageForm.addEventListener('submit', (e) =>{
     
     e.preventDefault() //to disable auto-refresh on browser 
-    //const message = document.querySelector('input').value
     messageFormButton.setAttribute('disabled', 'disabled')
     const msg = document.getElementById('message').value
     
