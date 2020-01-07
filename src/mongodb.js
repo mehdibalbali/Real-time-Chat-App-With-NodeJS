@@ -10,16 +10,5 @@ MongoClient.connect(connectionURL, {useNewUrlParser: true }, (error, client)=>{
 
     const db = client.db(databaseName)
     
-    db.collection('users').insertOne({
-        name: 'Mehdi ',
-        age: 24
-    },(error,result) =>{
-        if(error){
-            return console.log('Unable to insert into the database!')
-        }
-
-        console.log(result.ops)
-    }) 
-
     console.log('Connected correctly  to the database !')
 })
