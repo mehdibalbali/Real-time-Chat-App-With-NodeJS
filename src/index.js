@@ -2,6 +2,8 @@ const express = require('express')
 const path = require('path')
 const http = require('http')
 const socketio = require('socket.io')
+require('./db/mongoose')
+
 const {generateMessage,generateLocationMessage} = require('./utils/messages')
 const {addUser,removeUser,getUser,getUsersInRoom}  =require('./utils/users')
 const app = express()

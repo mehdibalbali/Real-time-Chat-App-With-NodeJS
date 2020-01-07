@@ -19,8 +19,11 @@
   "homepage": "https://github.com/mehdibalbali/Real-time-Chat-App-With-NodeJS#readme",
   "dependencies": {
     "express": "^4.17.1",
+    "mongodb": "^3.4.1",
+    "mongoose": "^5.8.5",
     "socket.io": "^2.3.0",
-    "soket.io": "0.0.1-security"
+    "soket.io": "0.0.1-security",
+    "validator": "^12.1.0"
   },
   "devDependencies": {
     "nodemon": "^2.0.2"
