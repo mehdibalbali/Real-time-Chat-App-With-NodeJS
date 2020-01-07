@@ -15,10 +15,16 @@ app.use(express.static(publicDirectoryPath))
 io.on('connection', (socket) =>{
     console.log('New web soket')
     
-    socket.emit('message', generateMessage('Welcome! '))
-    socket.broadcast.emit('message',generateMessage('A new user hase join the chat room'))
+    
+   socket.on('join', ({username, room}) => {
+        socket.join(room)
+       
+        socket.emit('message', generateMessage('Welcome! '))
+        socket.broadcast.to(room).emit('message',generateMessage(`${username} has join the chat room`))
+   
+   })
     socket.on('send',(message, callback) =>{
-        io.emit('message', generateMessage(message))
+        io.to('hhh').emit('message', generateMessage(message))
         callback()
     })
 
