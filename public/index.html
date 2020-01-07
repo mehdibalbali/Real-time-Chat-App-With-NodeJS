@@ -4,27 +4,47 @@
     <meta charset='utf-8'>
     <meta http-equiv='X-UA-Compatible' content='IE=edge'>
     <title>Chat App</title>
-    <meta name='viewport' content='width=device-width, initial-scale=1'> <!-- 
-    <link rel='stylesheet' type='text/css' media='screen' href='main.css'> -->
+    <meta name='viewport' content='width=device-width, initial-scale=1'> 
+    <link rel='stylesheet' type='text/css' media='screen' href='./css/styles.css'>
    
 </head>
 <body>
-    Chat App is Loading!!!!
-    <div id="messages"></div>
-    <form method="GET" id="form">
-        <input type="text" id="message" placeholder="tape your message here">
-        <button type="submit" id="submit"> send</button>
-    </form>
-    <button id="locationButton">share location</button>
+    <div class="chat">
+        <div class="chat__sidebar">
+
+        </div>
+        <div class="chat__main">
+            <div id="messages" class="chat__messages"></div>
+
+            <div class="compose">
+                <form method="GET" id="form">
+                    <input type="text" id="message" placeholder="tape your message here">
+                    <button type="submit" id="submit"> send</button>
+                </form>
+                <button id="locationButton">share location</button>
+            </div>
+
+        </div>
+    </div>
+   
+   
 
     <script id="message-template" type="text/html">
-        <div>
-            <p>{{createdAt}} - {{message}} </p> 
+        <div class="message">
+            <p>
+                <span class="message__name">username </span>
+                <span class="message__meta">{{createdAt}}</span>
+            </p>
+            <p>{{message}} </p> 
         </div>
     </script>
     <script id="location-template" type="text/html">
-        <div>
-           <p>{{createdAt}} - <a href="{{url}}" target="_balnk"> My current location </a> </p>
+        <div class="message">
+            <p>
+                <span class="message__name">username </span>
+                <span class="message__meta">{{createdAt}}</span>
+            </p>
+           <p> <a href="{{url}}" target="_balnk"> My current location </a> </p>
         </div>
     </script>
 
